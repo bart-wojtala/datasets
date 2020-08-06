@@ -14,6 +14,7 @@ def clip_files(directory):
     silence = AudioSegment.silent(duration = 100)
     files = [f for f in listdir(main_directory) if isfile(join(main_directory, f))]
     for f in files:
+        print("Processing file: " + f)
         sound = AudioSegment.from_file(join(main_directory, f), format="wav")
 
         start_trim = detect_leading_silence(sound)
