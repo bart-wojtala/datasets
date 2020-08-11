@@ -35,4 +35,4 @@ def detect_leading_silence(sound, silence_threshold=-50.0, chunk_size=10):
 
 
 if __name__ == "__main__":
-    clip_files("/datasets/trump/wavs") # Set wavs directory here
+    clip_files("/") # Set wavs directory here
