@@ -3,11 +3,13 @@ import random
 import linecache
 
 
-def split_data(csv_file, train_set_size=0.9):
-    records = file_len(csv_file)
+def split_data(csv_file, train_set_size):
+    records = get_file_len(csv_file)
     val_size = round((1 - train_set_size) * records)
-    val_lines = random_lines(csv_file, records, val_size)
-    full_dataset = all_lines(csv_file, records)
+    val_lines = get_random_lines(csv_file, records, val_size)
+    print("Total dataset size: " + str(records))
+    print("Validation set size: " + str(val_size))
+    full_dataset = get_all_lines(csv_file, records)
     train_lines = [l for l in full_dataset if l not in val_lines]
 
     with open('dataset_val.txt', "w") as f:
@@ -18,19 +20,19 @@ def split_data(csv_file, train_set_size=0.9):
             f.write(f'{line}')
 
 
-def file_len(filename):
+def get_file_len(filename):
     with open(filename) as f:
         for i, l in enumerate(f):
             pass
     return i + 1
 
 
-def random_lines(filename, dataset_size, val_size):
+def get_random_lines(filename, dataset_size, val_size):
     idxs = random.sample(range(dataset_size), val_size)
     return [linecache.getline(filename, i) for i in idxs]
 
 
-def all_lines(filename, dataset_size):
+def get_all_lines(filename, dataset_size):
     with open(filename) as f:
         return f.readlines()
 
