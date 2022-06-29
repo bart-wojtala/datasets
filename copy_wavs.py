@@ -12,12 +12,12 @@ if __name__ == '__main__':
         content = f.readlines()
 
     for i, line in enumerate(content):
-        content[i] = line.split('|')[0][5:].lower()
+        content[i] = line.split('|')[0][5:].upper()
 
     for directory in wavs_subdirectories:
         dataset_directory = main_directory + directory
         for filename in os.listdir(dataset_directory):
-            if filename.lower() in content:
+            if filename in content:
                 source = os.path.join(
                     os.getcwd(), dataset_directory + filename)
                 target = os.path.join(os.getcwd(), target_directory)

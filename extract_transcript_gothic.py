@@ -29,7 +29,7 @@ if __name__ == '__main__':
                         if is_bezi(info):
                             pattern = '([\"])([\w]+)([\"])'
                             filename = 'wavs/' + \
-                                re.search(pattern, info).group(2) + '.wav'
+                                re.search(pattern, info).group(2).upper() + '.WAV'
                             transcript_dict[filename] = text
 
     with open('gothic_list.txt', 'w', encoding='utf-8') as output_file:
