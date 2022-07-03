@@ -6,8 +6,8 @@ from pydub import AudioSegment
 
 def clip_files(directory):
     main_directory = os.getcwd() + directory
-
     clean_directory = os.getcwd() + directory + "_clean"
+    long_files = []
 
     if not exists(clean_directory):
         makedirs(clean_directory)
@@ -16,7 +16,6 @@ def clip_files(directory):
     files = [f for f in listdir(main_directory)
              if isfile(join(main_directory, f))]
     for f in files:
-        print("Processing file: " + f)
         sound = AudioSegment.from_file(join(main_directory, f), format="wav")
 
         start_trim = detect_leading_silence(sound)
@@ -26,6 +25,11 @@ def clip_files(directory):
         trimmed_sound = sound[start_trim:duration - end_trim]
         output_audio = trimmed_sound + silence
         output_audio.export(join(clean_directory, f), format="wav")
+
+        w = AudioSegment.from_wav(join(clean_directory, f))
+        if len(w) > 10000:
+            long_files.append(f)
+    print(long_files)
 
 
 def detect_leading_silence(sound, silence_threshold=-50.0, chunk_size=10):
