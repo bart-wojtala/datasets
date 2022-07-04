@@ -1,7 +1,7 @@
 import os
-import re
 import shutil
 from natsort import natsorted
+from pyunpack import Archive
 
 
 def is_bezi(text):
@@ -19,11 +19,14 @@ if __name__ == '__main__':
     speaker_number = '15'
     transcript_file = 'witcher_transcript_cleared.txt'
     main_directory = 'datasets/flowtron/Wiedzmin 3/'
-    dataset_directory = main_directory + target_voice + '/' + target_voice
+    source_directory = main_directory + target_voice + '/'
+    dataset_directory = source_directory + target_voice
     wavs_directory = dataset_directory + '/wavs/'
     target_directory = 'datasets/flowtron/wavs_wiedzmin/'
     source_transcript_file = 'list.txt'
     transcript = {}
+
+    Archive(source_directory + target_voice + '.7z').extractall(source_directory)
 
     with open(os.path.join(dataset_directory, source_transcript_file), 'r', encoding='utf-8') as f:
         content = f.readlines()
