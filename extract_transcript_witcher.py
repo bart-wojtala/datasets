@@ -2,16 +2,7 @@ import os
 import shutil
 from natsort import natsorted
 from pyunpack import Archive
-
-
-def is_bezi(text):
-    other_index = text.find('other')
-    if other_index == -1:
-        other_index = text.find('hero')
-    self_index = text.find('self')
-    if other_index < self_index:
-        return True
-    return False
+from pydub import AudioSegment
 
 
 if __name__ == '__main__':
@@ -25,6 +16,7 @@ if __name__ == '__main__':
     target_directory = 'datasets/flowtron/wavs_wiedzmin/'
     source_transcript_file = 'list.txt'
     transcript = {}
+    long_files = []
 
     Archive(source_directory + target_voice + '.7z').extractall(source_directory)
 
@@ -52,3 +44,11 @@ if __name__ == '__main__':
             source = os.path.join(os.getcwd(), wavs_directory + filename)
             target = os.path.join(os.getcwd(), target_directory)
             shutil.copy(source, target)
+
+    for filename in os.listdir(target_directory):
+        if filename.endswith('.wav'):
+            w = AudioSegment.from_wav(os.path.join(target_directory, filename))
+            if len(w) > 10000:
+                long_files.append(filename)
+
+    print(long_files)
