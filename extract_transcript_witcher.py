@@ -34,7 +34,8 @@ if __name__ == '__main__':
             line_split = line.split('|')
             filename = line_split[0][5:].strip()
             text = line_split[1].strip()
-            transcript[filename] = text
+            if text not in transcript.values():
+                transcript[filename] = text
 
     files = [f for f in os.listdir(wavs_directory) if os.path.isfile(
         os.path.join(wavs_directory, f))]
