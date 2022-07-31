@@ -2,6 +2,10 @@ import os
 
 
 if __name__ == '__main__':
+    punctuation = list(',.!?')
+    letters = list('AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻaąbcćdeęfghijklłmnńoóprsśtuwyzźż ')
+    symbols = punctuation + letters
+
     wavs_directory = 'datasets/flowtron/wavs/'
     file_list = 'list.txt'
     file_list_cleared = 'witcher_transcript_cleared.txt'
@@ -14,8 +18,25 @@ if __name__ == '__main__':
         content = f.readlines()
 
     for i, line in enumerate(content):
-        file = line.split('|')[0][5:]
-        text = line.split('|')[1]
+        line_split = line.split('|')
+        file = line_split[0][5:]
+        text = line_split[1]
+        id = line_split[2].strip()
+
+        if '  ' in text:
+            print('Double space in line: {}'.format(line))
+            break
+        if text[-1] not in symbols:
+            print('Wrong text end symbol in line: {}'.format(line))
+            break
+        for char in text:
+            if char not in symbols:
+                print('Wrong character: {}, in line: {}'.format(char, line))
+                break
+        if not id.isdigit():
+            print('Wrong character in speaker id in line: {}'.format(line))
+            break
+
         if text in textlines.values():
             duplicates.append(text + '|' + line.split('|')[2])
         try:
